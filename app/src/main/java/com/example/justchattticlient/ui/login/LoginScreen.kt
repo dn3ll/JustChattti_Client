@@ -1,9 +1,10 @@
-package com.example.justchattticlient.login
+package com.example.justchattticlient.ui.login
 
-import android.R.attr.text
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import com.example.justchattticlient.ui.theme.DTTextFieldBg
 import com.example.justchattticlient.ui.theme.DTTextFieldBorder
 import com.example.justchattticlient.R
+import com.example.justchattticlient.network.AuthRepository
 import com.example.justchattticlient.ui.theme.JustChatttiClientTheme
 
 @Composable
@@ -164,13 +165,24 @@ fun LoginScreen() {
 
                     VerticalDivider(Modifier.height(15.dp))
 
-                    Button(onClick = {TODO()}, modifier = Modifier
+                    Button(onClick = {  },
+                        modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
                         shape = RoundedCornerShape(13.dp),
                         )
                     {
                         Text("Вход", color = Color.White, fontSize = 18.sp)
+                    }
+
+                    VerticalDivider(Modifier.height(15.dp))
+
+                    Row() {
+                        Text(text = "Первый раз у нас? ", color = DTTextFieldBorder)
+                        Text(text = "Регистрация", fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.clickable {
+                              TODO()
+                            })
                     }
                 }
             }
