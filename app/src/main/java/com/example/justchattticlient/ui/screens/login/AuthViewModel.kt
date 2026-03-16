@@ -1,6 +1,5 @@
-package com.example.justchattticlient.ui.login
+package com.example.justchattticlient.ui.screens.login
 
-import android.R.attr.password
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
