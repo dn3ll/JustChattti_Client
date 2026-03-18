@@ -31,14 +31,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.justchattticlient.ui.theme.DTTextFieldBorder
 import com.example.justchattticlient.R
 import com.example.justchattticlient.data.LoginResult
+import com.example.justchattticlient.navigation.Screen
 import com.example.justchattticlient.ui.components.AuthTextField
 import com.example.justchattticlient.ui.theme.JustChatttiClientTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     val authViewModel: AuthViewModel = viewModel()
     var loginText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
@@ -120,13 +122,13 @@ fun LoginScreen() {
                     Text(
                         text = "Регистрация", fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.clickable {
-                            TODO()
+                            navController.navigate(Screen.Registration)
                         })
                 }
 
                 if (result != null) {
-                    val (message, color) = when (result) {
-                        is LoginResult.Success -> "Успех! Добро пожаловать." to Color.Green
+                    when (result) {
+                        is LoginResult.Success -> {navController.navigate(Screen.Chats)}
                         is LoginResult.Error400 -> "Ошибка 400: ${result.detail}" to Color.Red
                         is LoginResult.Error422 -> "Ошибка валидации: ${result.detail.firstOrNull()?.msg}" to Color.Red
                         is LoginResult.Error500 -> "Ошибка сервера: ${result.detail}" to Color.Red
@@ -140,11 +142,3 @@ fun LoginScreen() {
     }
 }
 
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    JustChatttiClientTheme(dynamicColor = false) {
-        LoginScreen()
-    }
-}

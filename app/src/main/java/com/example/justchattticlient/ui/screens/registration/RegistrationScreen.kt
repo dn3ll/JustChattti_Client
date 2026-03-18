@@ -28,17 +28,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.justchattticlient.R
+import com.example.justchattticlient.data.LoginResult
+import com.example.justchattticlient.data.RegisterResult
+import com.example.justchattticlient.data.SomeUserData
+import com.example.justchattticlient.navigation.Screen
 import com.example.justchattticlient.ui.components.AuthTextField
+import com.example.justchattticlient.ui.screens.login.AuthViewModel
 import com.example.justchattticlient.ui.theme.JustChatttiClientTheme
 
 @Composable
-fun RegistrationScreen() {
+fun RegistrationScreen(navController: NavHostController) {
+    val registerViewModel: RegisterViewModel = viewModel()
     var login by remember { mutableStateOf("") }
     var pass by remember { mutableStateOf("") }
     var passRepeat by remember { mutableStateOf("") }
     var v1 by remember { mutableStateOf(false) }
     var v2 by remember { mutableStateOf(false) }
+    val result = registerViewModel.registerResult
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -84,7 +94,10 @@ fun RegistrationScreen() {
                 Spacer(Modifier.height(40.dp))
 
                 Button(
-                    onClick = { /* TODO: Регистрация */ },
+                    onClick = { registerViewModel.doRegister(pass,
+                        passRepeat,
+                        SomeUserData(damn = "nmad", example_key = "example_value1"),
+                        login)}, //TODO() пока захардкодил 2 рандом слова
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
@@ -104,9 +117,20 @@ fun RegistrationScreen() {
                         text = "Вход",
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.clickable { /* TODO: Переход на логин */ }
+                        modifier = Modifier.clickable { navController.navigate(Screen.Login) }
                     )
                 }
+
+                if (result != null) {
+                   when (result) {
+                        is RegisterResult.Success -> {navController.navigate(Screen.Login)}
+                        is RegisterResult.Error400 -> "Ошибка 400: ${result.detail}" to Color.Red
+                        is RegisterResult.Error422 -> "Ошибка валидации: ${result.detail.firstOrNull()?.msg}" to Color.Red
+                        is RegisterResult.Error500 -> "Ошибка сервера: ${result.detail}" to Color.Red
+                    }
+                }
+
+                Text(result.toString(), color = Color.White, fontSize = 18.sp)
             }
         }
     }
@@ -114,10 +138,4 @@ fun RegistrationScreen() {
 
 
 
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    JustChatttiClientTheme(dynamicColor = false) {
-        RegistrationScreen()
-    }
-}
+
