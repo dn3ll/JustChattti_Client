@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -127,15 +128,27 @@ fun LoginScreen(navController: NavHostController) {
                 }
 
                 if (result != null) {
-                    when (result) {
-                        is LoginResult.Success -> {navController.navigate(Screen.Chats)}
-                        is LoginResult.Error400 -> "Ошибка 400: ${result.detail}" to Color.Red
-                        is LoginResult.Error422 -> "Ошибка валидации: ${result.detail.firstOrNull()?.msg}" to Color.Red
-                        is LoginResult.Error500 -> "Ошибка сервера: ${result.detail}" to Color.Red
+                    LaunchedEffect(result) {
+                        if (result is LoginResult.Success) {
+                            android.util.Log.d("AUTH_DEBUG", "Access Token: ${result.access_token}")
+                            android.util.Log.d("AUTH_DEBUG", "Refresh Token: ${result.refresh_token}")
+
+                            navController.navigate(Screen.Chats)
+                        }
+                    }
+
+                    val errorMessage = when (result) {
+                        is LoginResult.Error400 -> result.detail
+                        is LoginResult.Error422 -> result.detail.firstOrNull()?.msg ?: "Ошибка валидации"
+                        is LoginResult.Error500 -> result.detail
+                        is LoginResult.Success -> null
+                        else -> null
+                    }
+
+                    errorMessage?.let {
+                        Text(text = it, color = Color.Red, modifier = Modifier.padding(top = 10.dp))
                     }
                 }
-
-                Text(result.toString(), color = Color.White, fontSize = 18.sp)
             }
         }
 

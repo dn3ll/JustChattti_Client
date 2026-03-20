@@ -25,20 +25,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.justchattticlient.R
-import com.example.justchattticlient.data.LoginResult
 import com.example.justchattticlient.data.RegisterResult
 import com.example.justchattticlient.data.SomeUserData
 import com.example.justchattticlient.navigation.Screen
 import com.example.justchattticlient.ui.components.AuthTextField
-import com.example.justchattticlient.ui.screens.login.AuthViewModel
-import com.example.justchattticlient.ui.theme.JustChatttiClientTheme
+
 
 @Composable
 fun RegistrationScreen(navController: NavHostController) {

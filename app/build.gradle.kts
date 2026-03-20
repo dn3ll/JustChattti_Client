@@ -68,4 +68,5 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
     implementation("androidx.compose.runtime:runtime:1.7.0")
+    implementation("androidx.security:security-crypto:1.1.0")
 }

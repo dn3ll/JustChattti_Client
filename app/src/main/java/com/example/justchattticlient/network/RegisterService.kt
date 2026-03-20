@@ -1,6 +1,5 @@
 package com.example.justchattticlient.network
 
-import com.example.justchattticlient.data.LoginRequest
 import com.example.justchattticlient.data.RegisterRequest
 import okhttp3.ResponseBody
 import retrofit2.Response
