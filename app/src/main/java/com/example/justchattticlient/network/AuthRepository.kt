@@ -6,7 +6,7 @@ import com.example.justchattticlient.data.TokenManager
 import com.google.gson.Gson
 
 class AuthRepository(private val tokenManager: TokenManager) {
-    private val authService = NetworkClient.retrofit.create(AuthService::class.java)
+    private val authService = NetworkClient.authRetrofit.create(AuthService::class.java)
     private val gson = Gson()
 
     suspend fun login(request: LoginRequest): LoginResult {
@@ -18,7 +18,8 @@ class AuthRepository(private val tokenManager: TokenManager) {
             when (response.code()) {
                 200 -> {
                     val res = gson.fromJson(responseBody, LoginResult.Success::class.java)
-                    tokenManager.saveTokens(res.access_token, res.refresh_token)
+                    tokenManager.saveTokens(
+                        res.access_token, res.refresh_token)
                     res
                 }
                 400 -> gson.fromJson(errorBody, LoginResult.Error400::class.java)

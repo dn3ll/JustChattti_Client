@@ -38,7 +38,6 @@ import com.example.justchattticlient.R
 import com.example.justchattticlient.data.LoginResult
 import com.example.justchattticlient.navigation.Screen
 import com.example.justchattticlient.ui.components.AuthTextField
-import com.example.justchattticlient.ui.theme.JustChatttiClientTheme
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -154,4 +153,8 @@ fun LoginScreen(navController: NavHostController) {
 
     }
 }
+
+
+
+
 

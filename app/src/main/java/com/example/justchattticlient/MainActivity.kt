@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.justchattticlient.navigation.AppNavHost
-import com.example.justchattticlient.ui.screens.login.LoginScreen
-import com.example.justchattticlient.ui.screens.registration.RegistrationScreen
+import com.example.justchattticlient.network.NetworkClient
 import com.example.justchattticlient.ui.theme.JustChatttiClientTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        NetworkClient.init(this)
         setContent {
             JustChatttiClientTheme {
                 val navController = rememberNavController()
@@ -27,18 +27,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    JustChatttiClientTheme {
-        Greeting("Android")
-    }
-}

@@ -1,11 +1,18 @@
 package com.example.justchattticlient.navigation
 
+import ChatsViewModel
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import com.example.justchattticlient.network.ChatRepository
+import com.example.justchattticlient.network.ChatService
+import com.example.justchattticlient.network.NetworkClient
 import com.example.justchattticlient.ui.screens.chats.ChatsScreen
 import com.example.justchattticlient.ui.screens.login.LoginScreen
 import com.example.justchattticlient.ui.screens.registration.RegistrationScreen
@@ -26,8 +33,21 @@ fun AppNavHost(navController: NavHostController) {
         }
 
         composable<Screen.Chats> {
-            ChatsScreen(navController = navController)
+            val chatService = NetworkClient.apiRetrofit.create(ChatService::class.java)
+            val repository = ChatRepository(chatService)
+            val viewModel: ChatsViewModel = androidx.lifecycle.viewmodel.compose.viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        @Suppress("UNCHECKED_CAST")
+                        return ChatsViewModel(repository) as T
+                    }
+                }
+            )
+
+            ChatsScreen(viewModel = viewModel)
         }
+
+
     }
 
 }
